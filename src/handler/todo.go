@@ -63,7 +63,7 @@ func (h *Handler) CreateTodo(c echo.Context) error {
 			Data:    resp,
 		})
 	}
-	return c.JSON(http.StatusOK, response.GlobalResponse{
+	return c.JSON(http.StatusCreated, response.GlobalResponse{
 		Status:  "Success",
 		Message: "Success",
 		Data:    resp,
@@ -74,16 +74,20 @@ func (h *Handler) DeleteTodo(c echo.Context) error {
 	ctx := c.Request().Context()
 	id := c.Param("id")
 
+	// var empty interface{}
+
 	err := h.useCase.DeleteTodo(ctx, id)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, response.GlobalResponse{
 			Status:  "Not Found",
 			Message: err.Error(),
+			Data:    nil,
 		})
 	}
 	return c.JSON(http.StatusOK, response.GlobalResponse{
 		Status:  "Success",
 		Message: "Success",
+		Data:    nil,
 	})
 }
 

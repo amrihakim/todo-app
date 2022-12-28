@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+	"os"
 	"todo-app/src/models"
 
 	"gorm.io/driver/mysql"
@@ -13,7 +14,13 @@ type Database struct {
 }
 
 func InitializeDatabase() *Database {
-	dsn := "root:root@tcp(127.0.0.1:3306)/todo-app?charset=utf8mb4&parseTime=True&loc=Local"
+
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+		os.Getenv(`MYSQL_USER`),
+		os.Getenv(`MYSQL_PASSWORD`),
+		os.Getenv(`MYSQL_HOST`),
+		os.Getenv(`MYSQL_PORT`),
+		os.Getenv(`MYSQL_DBNAME`))
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		fmt.Println("Failed to open connection")

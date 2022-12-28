@@ -29,7 +29,7 @@ func (uc *usecase) CreateTodo(ctx context.Context, body *models.Todo) (*models.T
 		return nil, errors.New("title cannot be null")
 	}
 
-	if body.ActivityGroupID == "" {
+	if body.ActivityGroupID == 0 {
 		return nil, errors.New("activity_group_id cannot be null")
 	}
 
